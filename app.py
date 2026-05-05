@@ -36,12 +36,14 @@ ggai.configure(api_key=api_keys[st.session_state.key_index])
 
 # role of AI
 companion_prompt = """
-You are a gentle and supportive "Body Doubling" companion for a user with ADHD. 
+You are a gentle and supportive "Body Doubling Companion" for a user with ADHD. 
 When the user tells you a task they are avoiding, please follow these rules:
-1. Validate their feelings. Talk like a supportive friend who is sitting next to them. Do not sound like a strict teacher or a robot.
-2. Break it down and suggest exactly one small, 2-minute micro-task.
-3. Keep it short (2-3 sentences).
+1. Validate the user's feeling. Talk like a supportive friend who is sitting next to them.
+2. Do not sound like a strict teacher or a robot.
+3. Break the task down and suggest exactly one small, 2-minute micro-task.
+4. Keep the sentences not too long (2-3 sentences).
 """
+
 
 model = ggai.GenerativeModel('gemini-2.5-flash', system_instruction=companion_prompt)
 
@@ -71,21 +73,21 @@ if st.session_state.step == 0:
     st.markdown("<h2 style='text-align: center;'>How are you feeling today? 🥰</h2>", unsafe_allow_html=True)
     st.write("")
 
-    col1, col2, col3 = st.columns(3)
+    c1, c2, c3 = st.columns(3)
 
-    with col1:
+    with c1:
         if st.button("🔋 Ready to go", use_container_width=True):
             st.session_state.messages = [
                 {"role": "ai", "content": "Awesome energy! 🚀 What big task are we tackling today?"}]
             goto_page(1)
             st.rerun()
-    with col2:
+    with c2:
         if st.button("😕 A bit tired", use_container_width=True):
             st.session_state.messages = [
                 {"role": "ai", "content": "I hear you. 🫂 Let's do something extremely easy. What's on your mind?"}]
             goto_page(1)
             st.rerun()
-    with col3:
+    with c3:
         if st.button("🪫 Overwhelmed", use_container_width=True):
             st.session_state.messages = [
                 {"role": "ai", "content": "Take a deep breath. 🌬️ Tell me the scariest task, I'll slice it tiny for you."}]
@@ -168,8 +170,8 @@ elif st.session_state.step == 2:
     st.info(f"**🎯 Big Goal:** {st.session_state.big_goal}")
     st.success(f"**📝 Action:** {st.session_state.micro_task}")
 
-    img_col1, img_col2, img_col3 = st.columns([1, 3, 1])
-    with img_col2:
+    img1, img2, img3 = st.columns([1, 3, 1])
+    with img2:
         try:
             st.image("read.gif", use_container_width=True)
         except:
@@ -180,7 +182,7 @@ elif st.session_state.step == 2:
 
     progress_bar_css = """
     <style>
-        .my-progress-box {
+        .progress-box {
             width: 100%;
             background-color: #f0f4f8;
             border-radius: 8px;
@@ -188,10 +190,10 @@ elif st.session_state.step == 2:
             height: 8px;
             margin-bottom: 10px;
         }
-        .my-progress-line {
+        .progress-line {
             height: 100%;
             width: 0%;
-            animation: moveBar 120s linear forwards; 
+            animation: moveBar 12s linear forwards; 
         }
         @keyframes moveBar {
             0% { width: 0%; background: #90caf9; }
@@ -203,19 +205,19 @@ elif st.session_state.step == 2:
             text-align: center;
             font-size: 14px;
             color: #666;
-            animation: showText 2s ease-in 120s forwards; 
+            animation: showText 2s ease-in 12s forwards; 
         }
         @keyframes showText {
             to { opacity: 1; }
         }
     </style>
 
-    <div class="my-progress-box">
-        <div class="my-progress-line"></div>
+    <div class="progress-box">
+        <div class="progress-line"></div>
     </div>
     <div class="fade-text">
         ✨ <strong>The friction of initiation is broken.</strong><br>
-        You can finish now with zero guilt, or stay in the flow and keep going.
+        You can finish now with no guilt, or stay in the flow and keep going.
     </div>
     <br>
     """
@@ -224,12 +226,12 @@ elif st.session_state.step == 2:
     if not st.session_state.is_focusing:
         st.markdown(progress_bar_css, unsafe_allow_html=True)
 
-        btn1, btn2 = st.columns(2)
-        with btn1:
+        b1, b2 = st.columns(2)
+        with b1:
             if st.button("✅ I finished!", use_container_width=True):
                 goto_page(3)
                 st.rerun()
-        with btn2:
+        with b2:
             if st.button("🌊 Stay in Flow!", use_container_width=True):
                 st.session_state.is_focusing = True
                 st.rerun()
@@ -239,8 +241,8 @@ elif st.session_state.step == 2:
         st.write("")
         st.write("")
 
-        center_col1, center_col2, center_col3 = st.columns([1, 1, 1])
-        with center_col2:
+        c1, c2, c3 = st.columns([1, 1, 1])
+        with c2:
             if st.button("Click here when you are done", use_container_width=True):
                 st.session_state.is_focusing = False
                 goto_page(3)
@@ -252,8 +254,8 @@ elif st.session_state.step == 3:
     st.balloons()
     st.markdown("<h1 style='text-align: center;'>🎉 You crushed it!</h1>", unsafe_allow_html=True)
 
-    col1, col2, col3 = st.columns([1, 2, 1])
-    with col2:
+    c1, c2, c3 = st.columns([1, 2, 1])
+    with c2:
         try:
             st.image("celebrate.gif", use_container_width=True)
         except:
@@ -261,8 +263,8 @@ elif st.session_state.step == 3:
 
     st.success("The first step is always the hardest. You successfully initiated the task!")
 
-    end_col1, end_col2, end_col3 = st.columns([1, 2, 1])
-    with end_col2:
+    c1, c2, c3 = st.columns([1, 2, 1])
+    with c2:
         if st.button("🔥 Start another micro-task", use_container_width=True):
             st.session_state.clear()
             st.rerun()
